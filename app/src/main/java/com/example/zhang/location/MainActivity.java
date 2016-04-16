@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -78,15 +79,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onConnectionSuspended(int i) {
 
+        Log.i(LOG_TAG, "GoogleApiClient on connection suspended.");
     }
 
     @Override
     public void onLocationChanged(Location location) {
+
+        Log.i(LOG_TAG, location.toString());
+        txtOutput.setText(location.toString());
+
+        //txtOutput.setText(Double.toString(location.getLatitude()));
 
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+        Log.i(LOG_TAG, "GoogleApiClient on connection failed.");
     }
 }
