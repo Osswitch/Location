@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        txtOutput = (TextView) findViewById(R.id.txtOutput);
+        //txtOutput = (TextView) findViewById(R.id.txtOutput);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity
     public void onLocationChanged(Location location) {
 
         Log.i(LOG_TAG, location.toString());
-        txtOutput.setText(location.toString());
+        //txtOutput.setText(location.toString());
 
         //txtOutput.setText(Double.toString(location.getLatitude()));
 

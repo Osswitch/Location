@@ -10,8 +10,39 @@
     tools:context="com.example.zhang.location.MainActivity">
 
     <TextView
-        android:id="@+id/txtOutput"
+        android:id="@+id/latitude_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/latitude_label"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/latitude_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/latitude_label"
+        android:layout_toRightOf="@+id/latitude_label"
+        android:textIsSelectable="true"
+        android:text="@string/latitude_default"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/longitude_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/latitude_label"
+        android:text="@string/longitude_label"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/longitude_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/longitude_label"
+        android:layout_toRightOf="@+id/longitude_label"
+        android:textIsSelectable="true"
+        android:text="@string/longitude_default"
+        android:textSize="16dp"/>
 </RelativeLayout>
