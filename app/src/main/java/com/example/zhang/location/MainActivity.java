@@ -37,6 +37,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        // Connect the Client.
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        // Disconnect the Client.
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
     public void onConnected(@Nullable Bundle bundle) {
 
     }
