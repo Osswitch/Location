@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity
 //                    MY_PERMISSION_ACCESS_FINE_LOCATION);
 //        }
 
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(1000);
 
         if (ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED){
             return;
@@ -83,6 +86,10 @@ public class MainActivity extends AppCompatActivity
             mLatitudeTextView.setText(String.valueOf(mLastLocation.getLatitude()));
             mLongitudeTextView.setText(String.valueOf(mLastLocation.getLongitude()));
         }
+
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, mLocationRequest, this
+        );
 
     }
 
@@ -105,6 +112,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-        Log.i(LOG_TAG, "GoogleApiClient on connection failed.");
+        Log.i(LOG_TAG, "GoogleApiClient on connection failed: " + connectionResult.getErrorCode());
     }
 }
