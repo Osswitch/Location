@@ -103,9 +103,8 @@ public class MainActivity extends AppCompatActivity
     public void onLocationChanged(Location location) {
 
         Log.i(LOG_TAG, location.toString());
-        //txtOutput.setText(location.toString());
-
-        //txtOutput.setText(Double.toString(location.getLatitude()));
+        mLatitudeTextView.setText(String.valueOf(location.getLatitude()));
+        mLongitudeTextView.setText(String.valueOf(location.getLongitude()));
 
     }
 
