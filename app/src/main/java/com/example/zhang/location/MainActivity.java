@@ -22,7 +22,9 @@ public class MainActivity extends AppCompatActivity
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final int MY_PERMISSION_ACCESS_FINE_LOCATION = 5000;
-    private TextView txtOutput;
+    private TextView mLatitudeTextView;
+    private TextView mLongitudeTextView;
+    private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
 
@@ -31,13 +33,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        buildGoogleApiClient();
 
-        //txtOutput = (TextView) findViewById(R.id.txtOutput);
+        mLatitudeTextView = (TextView) findViewById(R.id.latitude_textView);
+        mLongitudeTextView = (TextView) findViewById(R.id.longitude_textView);
     }
 
     @Override
@@ -50,30 +49,41 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         // Disconnect the Client.
-        mGoogleApiClient.disconnect();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+
         super.onStop();
+    }
+
+    private synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(1000); // Update location every second.
-
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+        //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
 //                PackageManager.PERMISSION_GRANTED) {
 //            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
 //                    MY_PERMISSION_ACCESS_FINE_LOCATION);
 //        }
 
+
         if (ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED){
             return;
         }
 
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this
-        );
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            mLatitudeTextView.setText(String.valueOf(mLastLocation.getLatitude()));
+            mLongitudeTextView.setText(String.valueOf(mLastLocation.getLongitude()));
+        }
+
     }
 
     @Override
