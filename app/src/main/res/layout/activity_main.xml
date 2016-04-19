@@ -9,40 +9,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.zhang.location.MainActivity">
 
-    <TextView
-        android:id="@+id/latitude_label"
+    <Button
+        android:id="@+id/request_activity_updates_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/latitude_label"
-        android:textSize="16dp"/>
+        android:onClick="requestActivityUpdatesButtonHandler"
+        android:text="@string/request_activity_updates" />
 
-    <TextView
-        android:id="@+id/latitude_textView"
+    <Button
+        android:id="@+id/remove_activity_updates_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/latitude_label"
-        android:layout_toRightOf="@+id/latitude_label"
-        android:textIsSelectable="true"
-        android:text="@string/latitude_default"
-        android:textSize="16dp"/>
+        android:layout_alignParentRight="true"
+        android:onClick="removeActivityUpdatesButtonHandler"
+        android:text="@string/remove_activity_updates" />
 
     <TextView
-        android:id="@+id/longitude_label"
-        android:layout_width="wrap_content"
+        android:id="@+id/detectedActivities"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/latitude_label"
-        android:text="@string/longitude_label"
-        android:textSize="16dp"/>
-
-    <TextView
-        android:id="@+id/longitude_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/longitude_label"
-        android:layout_toRightOf="@+id/longitude_label"
-        android:textIsSelectable="true"
-        android:text="@string/longitude_default"
-        android:textSize="16dp"/>
+        android:layout_below="@+id/request_activity_updates_button"
+        android:text="@string/detected_activities_title"/>
 </RelativeLayout>
