@@ -1,8 +1,12 @@
 package com.example.zhang.location;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -54,6 +58,9 @@ public class GeofenceTransitionsIntentService extends IntentService {
             String geofenceTransitionDetails = getGeofenceTransitionDetails(this,
                     geofenceTransition,
                     triggeringGeofences);
+
+            sendNotification(geofenceTransitionDetails);
+            Log.v(LOG_TAG, geofenceTransitionDetails);
         }
     }
 
@@ -81,5 +88,48 @@ public class GeofenceTransitionsIntentService extends IntentService {
             default:
                 return getString(R.string.unknown_geofence_transition);
         }
+    }
+
+    private void sendNotification(String notificationDetails) {
+
+        // Create an explicit content intent starts the main Activity.
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+
+        // Get a notification builder that's compatible with platform versions >= 4
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+        // This ensures that navigating backward from the Activity leads out of
+        // the application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+
+        // Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(MainActivity.class);
+
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(notificationIntent);
+
+        // Get a PendingIntent containing the entire back stack.
+        PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        // Define the notification settings.
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(notificationDetails)
+                .setContentText(getString(R.string.geofence_transition_notification_text))
+                .setContentIntent(notificationPendingIntent);
+
+        // Dismiss notification once the user touches it.
+        mBuilder.setAutoCancel(true);
+
+        // Get an instance of the Notification Manager
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Issue the notification
+        mNotificationManager.notify(0, mBuilder.build());
+
     }
 }
