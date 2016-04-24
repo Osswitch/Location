@@ -10,14 +10,31 @@ import java.util.HashMap;
  */
 public final class Constants {
 
+    /**
+     * Used to set an expiration time for a geofence. After this amount of time Location Services
+     * stops tracking the geofence.
+     */
+    public static final long GEOFENCE_EXPIRATION_IN_HOURS = 12;
+
+
+    /**
+     * For this sample, geofences expire after twelve hours.
+     */
+    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS =
+            GEOFENCE_EXPIRATION_IN_HOURS * 60 * 60 * 1000;
+
+    //public static final float GEOFENCE_RADIUS_IN_METERS = 1609; // 1 mile, 1.6 km
+    public static final float GEOFENCE_RADIUS_IN_METERS = 100; // 1 meter
+
+
     private Constants() {}
 
-    public static final HashMap<String, LatLng> TESTED_AREA = new HashMap<String, LatLng>();
+    public static final HashMap<String, LatLng> TESTED_AREAS = new HashMap<String, LatLng>();
 
     static {
-        TESTED_AREA.put("EV Building", new LatLng(45.495291, -73.577894));
-        TESTED_AREA.put("Restaurant Shi Tang", new LatLng(45.495225, -73.579596));
-        TESTED_AREA.put("Apartment", new LatLng(45.492555, -73.580343));
+        TESTED_AREAS.put("EV Building", new LatLng(45.495291, -73.577894));
+        TESTED_AREAS.put("Restaurant Shi Tang", new LatLng(45.495225, -73.579596));
+        TESTED_AREAS.put("Apartment", new LatLng(45.492555, -73.580343));
     }
 
 }
