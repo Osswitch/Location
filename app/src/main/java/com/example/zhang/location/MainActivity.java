@@ -10,6 +10,7 @@ import android.view.View;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    public void populateGeofenceList(HashMap<String, LatLng> areas) {
+    private void populateGeofenceList(HashMap<String, LatLng> areas) {
 
         for (Map.Entry<String, LatLng> entry : areas.entrySet()) {
             mGeofenceArrayList.add(new Geofence.Builder()
@@ -109,5 +110,12 @@ public class MainActivity extends AppCompatActivity implements
                     .build()
             );
         }
+    }
+
+    private GeofencingRequest getGeofencingRequest() {
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(mGeofenceArrayList);
+        return builder.build();
     }
 }
