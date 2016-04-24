@@ -1,5 +1,7 @@
 package com.example.zhang.location;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements
 
     protected GoogleApiClient mGoogleApiClient;
 
+    private PendingIntent mGeofencePendingIntent;
     private ArrayList<Geofence> mGeofenceArrayList;
 
     @Override
@@ -89,6 +92,18 @@ public class MainActivity extends AppCompatActivity implements
 
     public void addGeofencesButtonHandler(View view) {
 
+    }
+
+    private PendingIntent getGeofencePendingIntent() {
+        // Reuse the PendingIntent if we already have one.
+        if (mGeofencePendingIntent != null) {
+            return mGeofencePendingIntent;
+        }
+
+        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
+        // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
+        // calling addGeofences() and removeGeofences().
+        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void populateGeofenceList(HashMap<String, LatLng> areas) {
