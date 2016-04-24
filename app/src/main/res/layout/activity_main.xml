@@ -10,11 +10,11 @@
     tools:context="com.example.zhang.location.MainActivity">
 
     <Button
-        android:id="@+id/request_activity_updates_button"
+        android:id="@+id/add_geofences_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:onClick="requestActivityUpdatesButtonHandler"
-        android:text="@string/request_activity_updates" />
+        android:onClick="addGeofencesButtonHandler"
+        android:text="@string/add_geofences" />
 
 </RelativeLayout>
