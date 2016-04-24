@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
 /**
@@ -31,6 +32,14 @@ public class GeofenceTransitionsIntentService extends IntentService {
                     geofencingEvent.getErrorCode());
             Log.e(LOG_TAG, errorMessage);
             return;
+        }
+
+        // Get the geofencing transition type.
+        int geofenceTransition = geofencingEvent.getGeofenceTransition();
+
+        if (geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
+                geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+            
         }
     }
 }
