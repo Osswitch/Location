@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements
 
     protected GoogleApiClient mGoogleApiClient;
 
-    private PendingIntent mGeofencePendingIntent;
     private ArrayList<Geofence> mGeofenceArrayList;
 
     @Override
@@ -38,6 +37,10 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Empty list for storing geofences.
+        mGeofenceArrayList = new ArrayList<Geofence>();
+
+        populateGeofenceList(Constants.TESTED_AREAS);
         buildGoogleApiClient();
     }
 
@@ -106,14 +109,25 @@ public class MainActivity extends AppCompatActivity implements
 
     public void addGeofencesButtonHandler(View view) {
 
+        if (!mGoogleApiClient.isConnected()) {
+            Toast.makeText(this, getString(R.string.not_connected), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            LocationServices.GeofencingApi.addGeofences(
+                    mGoogleApiClient,
+                    getGeofencingRequest(),
+                    getGeofencePendingIntent()
+            ).setResultCallback(this);
+        } catch (SecurityException securityException) {
+            Log.e(LOG_TAG, "Permission Error." + securityException);
+        }
+
+
     }
 
     private PendingIntent getGeofencePendingIntent() {
-        // Reuse the PendingIntent if we already have one.
-        if (mGeofencePendingIntent != null) {
-            return mGeofencePendingIntent;
-        }
-
         Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
         // calling addGeofences() and removeGeofences().
